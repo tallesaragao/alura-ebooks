@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Casadocodigo.Controllers
 {
-    public class ProdutoController : Controller
+    public class CategoriaController : Controller
     {
         public IActionResult Index()
         {
