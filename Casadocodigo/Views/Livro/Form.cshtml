@@ -1,0 +1,57 @@
+﻿@model Casadocodigo.Models.Livro
+
+@{
+    ViewData["Title"] = "Novo Livro";
+}
+
+<section id="cadastro-categoria">
+    <h2 class="cdc-title">Novo Livro</h2>
+    @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @id = "form-livro" }))
+    {
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Nome, "Nome:")
+                    @Html.TextBoxFor(l => l.Nome, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Paginas, "Nº de Páginas:")
+                    @Html.TextBoxFor(l => l.Paginas, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Paginas, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.AutorId, "Autor:")
+                    @Html.DropDownListFor(l => l.AutorId,
+                        new SelectList(ViewBag.Autores, "Id", "Nome"),
+                        "Selecione um autor",
+                        new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.AutorId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <label for="fileInput">Imagem:</label>
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="fileInput">
+                        <label class="custom-file-label" for="fileInput">Escolha uma imagem</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Descricao, "Descrição:")
+                    @Html.TextAreaFor(l => l.Descricao, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Descricao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+        </div>
+        <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
+        <a href="@Url.Action("Index","Livro")" class="btn btn-outline-secondary">Cancelar</a>
+    }
+</section>

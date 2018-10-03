@@ -1,0 +1,24 @@
+﻿@model Casadocodigo.Models.Autor
+
+@{
+    ViewData["Title"] = "Novo Autor";
+}
+
+<section id="cadastro-categoria">
+    <h2 class="cdc-title">Novo Autor</h2>
+    @using (Html.BeginForm("Salvar", "Autor", FormMethod.Post, new { @id = "form-categoria" }))
+    {
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Nome, "Nome:", new { @class = "label" })
+                    @Html.TextBoxFor(a => a.Nome, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
+        <a href="@Url.Action("Index","Autor")" class="btn btn-outline-secondary">Cancelar</a>
+    }
+</section>
+

@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20181002142603_Inicial.cs" />
     <Compile Remove="Migrations\20181002142603_Inicial.Designer.cs" />
+    <Compile Remove="Migrations\20181003120138_Categorias.cs" />
+    <Compile Remove="Migrations\20181003120138_Categorias.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +21,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

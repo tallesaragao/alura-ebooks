@@ -15,6 +15,7 @@ namespace Casadocodigo.DbContexts
         public DbSet<Autor> Autores { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<CartaoCredito> CartoesCredito { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 
@@ -22,6 +23,11 @@ namespace Casadocodigo.DbContexts
         {
             modelBuilder.Entity<Pedido>()
                 .ToTable("Pedido");
+
+            modelBuilder.Entity<Categoria>()
+                .ToTable("Categoria")
+                .Property(c => c.Nome)
+                .IsRequired();
 
             modelBuilder.Entity<ItemPedido>()
                 .ToTable("ItemPedido")
@@ -68,7 +74,13 @@ namespace Casadocodigo.DbContexts
                 .ToTable("CartaoCredito");
 
             modelBuilder.Entity<Autor>()
-                .ToTable("Autor");
+                .ToTable("Autor")
+                .HasIndex(a => a.Nome)
+                .IsUnique();
+
+            modelBuilder.Entity<Autor>()
+                .Property(a => a.Nome)
+                .IsRequired();
 
             modelBuilder.Entity<LivroCategoria>()
                 .ToTable("LivroCategoria")

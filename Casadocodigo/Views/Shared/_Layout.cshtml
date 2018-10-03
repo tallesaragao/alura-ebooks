@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="~/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/slick/slick.css" />
         <link rel="stylesheet" href="~/lib/slick/slick-theme.css" />
+        <link rel="stylesheet" href="~/lib/fontawesome-free-5.3.1-web/css/all.css" />
         <link rel="stylesheet" href="~/css/app.css" />
     </environment>
     
@@ -16,7 +17,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-casadocodigo">
         <div class="container">
-            <a class="navbar-brand pt-0 pb-0 mt-0 mb-0" href="#">
+            <a class="navbar-brand pt-0 pb-0 mt-0 mb-0" href="@Url.Action("Index", "Livro")">
                 <img src="~/images/logo.png" alt="Logo da Casa do Código" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" 
@@ -26,21 +27,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                    <li class="nav-item dropdown font-weight-bold">
+                        <a class="nav-link dropdown-toggle" href="#" id="livrosDropdown" role="button" 
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Livros
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="livrosDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Form", "Livro")">Novo Livro</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Livro")">Lista de Livros</a>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Sobre</a>
+                        <a class="nav-link font-weight-bold" href="@Url.Action("Index", "Categoria")">Categorias</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contato</a>
+                        <a class="nav-link font-weight-bold" href="@Url.Action("Index", "Autor")">Autores</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         @RenderBody()
     </div>
 

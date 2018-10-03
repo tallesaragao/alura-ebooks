@@ -1,0 +1,42 @@
+﻿@model IList<Casadocodigo.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+
+<section id="lista-categorias">
+    <h2 class="cdc-title">Categorias</h2>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="text-capitalize">Nome</th>
+                            <th class="text-capitalize">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var categoria in Model)
+                        {
+                            <tr>
+                                <td>@categoria.Nome</td>
+                                <td>
+                                    <a class="text-primary" href="#"><i class="fa fa-edit"></i></a>
+                                    <a class="text-danger" href="#"><i class="fa fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer pl-2 pt-2 pb-2 bg-white">
+            <a class="btn btn-warning text-white font-weight-bold" href="@Url.Action("Form", "Categoria")">Nova Categoria</a>
+        </div>
+    </div>
+</section>
+
+

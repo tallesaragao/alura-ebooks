@@ -25,9 +25,13 @@ namespace Casadocodigo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nome")
+                        .IsUnique();
 
                     b.ToTable("Autor");
                 });
@@ -67,7 +71,8 @@ namespace Casadocodigo.Migrations
 
                     b.Property<bool>("Ativa");
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -172,6 +177,8 @@ namespace Casadocodigo.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired();
+
+                    b.Property<string>("Imagem");
 
                     b.Property<string>("Nome")
                         .IsRequired();
