@@ -4,14 +4,16 @@ using Casadocodigo.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Casadocodigo.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20181004135010_ISBN")]
+    partial class ISBN
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,9 +26,6 @@ namespace Casadocodigo.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Biografia")
-                        .IsRequired();
 
                     b.Property<string>("Nome")
                         .IsRequired();
@@ -191,6 +190,8 @@ namespace Casadocodigo.Migrations
 
                     b.Property<bool>("Ativo");
 
+                    b.Property<int>("AutorId");
+
                     b.Property<DateTime>("DataCadastro");
 
                     b.Property<string>("Descricao")
@@ -206,20 +207,9 @@ namespace Casadocodigo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Livro");
-                });
-
-            modelBuilder.Entity("Casadocodigo.Models.LivroAutor", b =>
-                {
-                    b.Property<int>("LivroId");
-
-                    b.Property<int>("AutorId");
-
-                    b.HasKey("LivroId", "AutorId");
-
                     b.HasIndex("AutorId");
 
-                    b.ToTable("LivroAutor");
+                    b.ToTable("Livro");
                 });
 
             modelBuilder.Entity("Casadocodigo.Models.LivroCategoria", b =>
@@ -310,16 +300,11 @@ namespace Casadocodigo.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Casadocodigo.Models.LivroAutor", b =>
+            modelBuilder.Entity("Casadocodigo.Models.Livro", b =>
                 {
                     b.HasOne("Casadocodigo.Models.Autor", "Autor")
                         .WithMany("Livros")
                         .HasForeignKey("AutorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Casadocodigo.Models.Livro", "Livro")
-                        .WithMany("Autores")
-                        .HasForeignKey("LivroId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -28,20 +28,35 @@
             <div class="collapse navbar-collapse" id="navContent">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown font-weight-bold">
-                        <a class="nav-link dropdown-toggle" href="#" id="livrosDropdown" role="button" 
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="livrosDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Livros
                         </a>
                         <div class="dropdown-menu" aria-labelledby="livrosDropdown">
-                            <a class="dropdown-item" href="@Url.Action("Form", "Livro")">Novo Livro</a>
                             <a class="dropdown-item" href="@Url.Action("Index", "Livro")">Lista de Livros</a>
+                            <a class="dropdown-item" href="@Url.Action("Form", "Livro")">Novo Livro</a>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link font-weight-bold" href="@Url.Action("Index", "Categoria")">Categorias</a>
+                    <li class="nav-item dropdown font-weight-bold">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categorias
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Index", "Categoria")">Lista de Categorias</a>
+                            <a class="dropdown-item" href="@Url.Action("Form", "Categoria")">Nova Categoria</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link font-weight-bold" href="@Url.Action("Index", "Autor")">Autores</a>
+
+                    <li class="nav-item dropdown font-weight-bold">
+                        <a class="nav-link dropdown-toggle" href="#" id="autoresDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Autores
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="autoresDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Index", "Autor")">Lista de Autores</a>
+                            <a class="dropdown-item" href="@Url.Action("Form", "Autor")">Novo Autor</a>
+                        </div>
                     </li>
                 </ul>
             </div>

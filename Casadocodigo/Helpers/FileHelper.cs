@@ -11,7 +11,18 @@ namespace Casadocodigo.Helpers
     {
         public static string Save(string basePath, IFormFile file)
         {
-            return null;
+            string name = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var realPath = Path.Combine(basePath, name);
+            using (var fileStream = File.Create(realPath))
+            {
+                file.CopyTo(fileStream);
+            }
+            return realPath;
+        }
+
+        public static void Remove(string filePath)
+        {
+            File.Delete(filePath);
         }
     }
 }

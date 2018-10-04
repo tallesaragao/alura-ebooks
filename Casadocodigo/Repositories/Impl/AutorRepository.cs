@@ -13,7 +13,7 @@ namespace Casadocodigo.Repositories.Impl
 
         public Autor FindById(int id)
         {
-            return context.Autores.Where(a => a.Id == id).FirstOrDefault();
+            return context.Autores.Find(id);
         }
     }
 }

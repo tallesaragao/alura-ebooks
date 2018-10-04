@@ -15,25 +15,25 @@ namespace Casadocodigo.Repositories
             this.context = context;
         }
 
-        public void Save(T entity)
+        public virtual void Save(T entity)
         {
             context.Set<T>().Add(entity);
             context.SaveChanges();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             context.Set<T>().Update(entity);
             context.SaveChanges();
         }
 
-        public void Remove(T entity)
+        public virtual void Remove(T entity)
         {
             context.Set<T>().Remove(entity);
             context.SaveChanges();
         }
 
-        public IList<T> ListAll()
+        public virtual IList<T> ListAll()
         {
             return context.Set<T>().ToList();
         }

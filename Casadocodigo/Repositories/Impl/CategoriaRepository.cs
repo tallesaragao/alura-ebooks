@@ -13,7 +13,7 @@ namespace Casadocodigo.Repositories
 
         public Categoria FindById(int id)
         {
-            return context.Categorias.Where(c => c.Id == id).FirstOrDefault();
+            return context.Categorias.Find(id);
         }
     }
 }

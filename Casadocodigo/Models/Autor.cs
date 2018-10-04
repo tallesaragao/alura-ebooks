@@ -10,6 +10,9 @@ namespace Casadocodigo.Models
         [Required(ErrorMessage = "Nome obrigatório")]
         public string Nome { get; set; }
 
-        public IList<Livro> Livros { get; set; }
+        [Required(ErrorMessage = "Biografia obrigatória")]
+        public string Biografia { get; set; }
+
+        public IList<LivroAutor> Livros { get; set; }
     }
 }

@@ -51,14 +51,19 @@ namespace Casadocodigo.DbContexts
                 .HasMany(c => c.CartoesCredito)
                 .WithOne();
 
+            modelBuilder.Entity<Imagem>()
+                .Property<int>("LivroId");
+            modelBuilder.Entity<Imagem>()
+                .HasKey("LivroId");
+
             modelBuilder.Entity<Livro>()
                 .ToTable("Livro")
                 .HasOne(l => l.Precificacao)
                 .WithOne()
                 .IsRequired();
             modelBuilder.Entity<Livro>()
-                .HasOne(l => l.Autor)
-                .WithMany(a => a.Livros)
+                .HasOne(l => l.Imagem)
+                .WithOne()
                 .IsRequired();
             modelBuilder.Entity<Livro>()
                 .Property(l => l.Nome)
@@ -67,7 +72,7 @@ namespace Casadocodigo.DbContexts
                 .Property(l => l.Descricao)
                 .IsRequired();
             modelBuilder.Entity<Livro>()
-                .Property(l => l.Codigo)
+                .Property(l => l.Isbn)
                 .IsRequired();
 
             modelBuilder.Entity<CartaoCredito>()
@@ -82,9 +87,17 @@ namespace Casadocodigo.DbContexts
                 .Property(a => a.Nome)
                 .IsRequired();
 
+            modelBuilder.Entity<Autor>()
+                .Property(a => a.Biografia)
+                .IsRequired();
+
             modelBuilder.Entity<LivroCategoria>()
                 .ToTable("LivroCategoria")
                 .HasKey(lc => new { lc.LivroId, lc.CategoriaId });
+
+            modelBuilder.Entity<LivroAutor>()
+                .ToTable("LivroAutor")
+                .HasKey(la => new { la.LivroId, la.AutorId });
 
             modelBuilder.Entity<Precificacao>()
                 .ToTable("Precificacao")

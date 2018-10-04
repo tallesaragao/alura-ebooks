@@ -1,4 +1,4 @@
-﻿@model Casadocodigo.Models.Livro
+﻿@model Casadocodigo.ViewModels.CadastroLivroVM
 
 @{
     ViewData["Title"] = "Novo Livro";
@@ -6,7 +6,7 @@
 
 <section id="cadastro-categoria">
     <h2 class="cdc-title">Novo Livro</h2>
-    @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @id = "form-livro" }))
+    @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form-livro" }))
     {
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
@@ -25,22 +25,46 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">
-                    @Html.LabelFor(l => l.AutorId, "Autor:")
-                    @Html.DropDownListFor(l => l.AutorId,
-                        new SelectList(ViewBag.Autores, "Id", "Nome"),
-                        "Selecione um autor",
-                        new { @class = "form-control" })
-                    @Html.ValidationMessageFor(l => l.AutorId, "", new { @class = "text-danger" })
+                    @Html.LabelFor(l => l.Isbn, "ISBN:")
+                    @Html.TextBoxFor(l => l.Isbn, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Isbn, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <label for="fileInput">Imagem:</label>
+                <div class="form-group">
+                    @Html.LabelFor(l => l.PrecoUnitario, "Preço Unitário:")
+                    @Html.TextBoxFor(l => l.PrecoUnitario, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.PrecoUnitario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.AutoresIds, "Autores:")
+                    @Html.ListBoxFor(l => l.AutoresIds,
+                        new MultiSelectList(ViewBag.Autores, "Id", "Nome", "Selecione um ou mais autores"),
+                        new { @multiple = "multiple", @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.AutoresIds, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.CategoriasIds, "Categorias:")
+                    @Html.ListBoxFor(l => l.CategoriasIds,
+                        new MultiSelectList(ViewBag.Categorias, "Id", "Nome", "Selecione uma ou mais categorias"),
+                        new { @multiple = "multiple", @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.CategoriasIds, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <label for="Arquivo">Imagem:</label>
                 <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="fileInput">
-                        <label class="custom-file-label" for="fileInput">Escolha uma imagem</label>
+                        <input type="file" class="custom-file-input" id="Arquivo" name="Arquivo">
+                        <label class="custom-file-label" for="Arquivo">Escolha uma imagem</label>
                     </div>
                 </div>
+                @Html.ValidationMessageFor(l => l.Arquivo, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(l => l.NomeArquivo, "", new { @class = "text-danger" })
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">
@@ -49,9 +73,21 @@
                     @Html.ValidationMessageFor(l => l.Descricao, "", new { @class = "text-danger" })
                 </div>
             </div>
-            
+
         </div>
         <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
         <a href="@Url.Action("Index","Livro")" class="btn btn-outline-secondary">Cancelar</a>
     }
 </section>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".custom-file .custom-file-input").change(function () {
+                var fileName = $(this).val().split("\\").pop();
+                alert(fileName);
+                $(".custom-file .custom-file-label").html(fileName);
+            });
+        });
+    </script>
+}

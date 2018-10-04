@@ -16,6 +16,13 @@
                     @Html.ValidationMessageFor(a => a.Nome, "", new { @class = "text-danger" })
                 </div>
             </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(a => a.Biografia, "Biografia:", new { @class = "label" })
+                    @Html.TextAreaFor(a => a.Biografia, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(a => a.Biografia, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
         <a href="@Url.Action("Index","Autor")" class="btn btn-outline-secondary">Cancelar</a>
