@@ -27,12 +27,18 @@ namespace Casadocodigo.Controllers
             this.livroRepository = livroRepository;
             this.categoriaRepository = categoriaRepository;
         }
+        
+        [Route("/")]
+        [Route("Livros")]
+        [HttpGet]
         public IActionResult Index()
         {
             var livros = livroRepository.ListAll();
             return View(livros);
         }
 
+        [Route("Livros/Novo")]
+        [HttpGet]
         public IActionResult Form()
         {
             ViewBag.Autores = autorRepository.ListAll();
@@ -40,15 +46,22 @@ namespace Casadocodigo.Controllers
             return View();
         }
 
+        [Route("Livros/Salvar")]
+        [HttpPost]
         public IActionResult Salvar(CadastroLivroVM viewModel)
         {
+            if (livroRepository.ExistsWithIsbn(viewModel.Isbn))
+                ModelState.AddModelError("Isbn", "Já existe um livro com o ISBN informado");
+            if (livroRepository.ExistsWithNome(viewModel.Nome))
+                ModelState.AddModelError("Nome", "Já existe um livro com o nome informado");
             if (ModelState.IsValid)
-            {
+            {                
                 Livro livro = viewModel.Model();
                 string basePath = Path.Combine(environment.WebRootPath, "images", "produtos");
                 string realPath = FileHelper.Save(basePath, viewModel.Arquivo);
                 livro.Imagem = new Imagem(realPath);
                 livroRepository.Save(livro);
+                TempData["Sucesso"] = "Livro cadastrado com sucesso";
                 return RedirectToAction("Index");
             }
             ViewBag.Autores = autorRepository.ListAll();

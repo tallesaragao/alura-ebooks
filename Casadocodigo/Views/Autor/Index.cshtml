@@ -5,6 +5,7 @@
 }
 
 <section id="lista-autores">
+
     <h2 class="cdc-title">Autores</h2>
 
     <div class="card">
@@ -14,7 +15,9 @@
                     <thead>
                         <tr class="bg-light">
                             <th class="text-capitalize">Nome</th>
-                            <th class="text-capitalize">Ações</th>
+                            <th class="text-capitalize">
+                                <i class="fa fa-cog"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,8 +26,10 @@
                             <tr>
                                 <td>@autor.Nome</td>
                                 <td>
-                                    <a class="text-primary" href="#"><i class="fa fa-edit"></i></a>
-                                    <a class="text-danger" href="#"><i class="fa fa-trash-alt"></i></a>
+                                    <a class="text-primary text-center" data-toggle="tooltip" title="Editar" aria-label="Editar"
+                                       href="@Url.Action("Edit", "Autor", new { id = autor.Id })">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -37,4 +42,11 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script>
+        $("[data-toggle='tooltip']").tooltip();
+    </script>
+}
 

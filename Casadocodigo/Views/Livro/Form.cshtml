@@ -32,13 +32,6 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">
-                    @Html.LabelFor(l => l.PrecoUnitario, "Preço Unitário:")
-                    @Html.TextBoxFor(l => l.PrecoUnitario, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(l => l.PrecoUnitario, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="form-group">
                     @Html.LabelFor(l => l.AutoresIds, "Autores:")
                     @Html.ListBoxFor(l => l.AutoresIds,
                         new MultiSelectList(ViewBag.Autores, "Id", "Nome", "Selecione um ou mais autores"),
@@ -56,6 +49,20 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Descricao, "Descrição:")
+                    @Html.TextAreaFor(l => l.Descricao, new { @class = "form-control", @rows = "4" })
+                    @Html.ValidationMessageFor(l => l.Descricao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.PrecoUnitario, "Preço Unitário (R$):")
+                    @Html.TextBoxFor(l => l.PrecoUnitario, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.PrecoUnitario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
                 <label for="Arquivo">Imagem:</label>
                 <div class="input-group mb-3">
                     <div class="custom-file">
@@ -66,17 +73,9 @@
                 @Html.ValidationMessageFor(l => l.Arquivo, "", new { @class = "text-danger" })
                 @Html.ValidationMessageFor(l => l.NomeArquivo, "", new { @class = "text-danger" })
             </div>
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="form-group">
-                    @Html.LabelFor(l => l.Descricao, "Descrição:")
-                    @Html.TextAreaFor(l => l.Descricao, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(l => l.Descricao, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
         </div>
         <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
-        <a href="@Url.Action("Index","Livro")" class="btn btn-outline-secondary">Cancelar</a>
+        <a href="@Url.Action("", "Livro")" class="btn btn-outline-secondary">Cancelar</a>
     }
 </section>
 
@@ -85,7 +84,6 @@
         $(function () {
             $(".custom-file .custom-file-input").change(function () {
                 var fileName = $(this).val().split("\\").pop();
-                alert(fileName);
                 $(".custom-file .custom-file-label").html(fileName);
             });
         });

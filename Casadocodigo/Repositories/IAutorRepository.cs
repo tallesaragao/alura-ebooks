@@ -12,5 +12,6 @@ namespace Casadocodigo.Repositories
         void Update(Autor autor);
         IList<Autor> ListAll();
         Autor FindById(int id);
+        bool ExistsWithNome(string nome);
     }
 }

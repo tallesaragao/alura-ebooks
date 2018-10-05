@@ -1,13 +1,14 @@
 ﻿@model Casadocodigo.Models.Autor
 
 @{
-    ViewData["Title"] = "Novo Autor";
+    ViewData["Title"] = "Editar Autor";
 }
 
 <section id="cadastro-autor">
-    <h2 class="cdc-title">Novo Autor</h2>
-    @using (Html.BeginForm("Salvar", "Autor", FormMethod.Post, new { @id = "form-categoria" }))
+    <h2 class="cdc-title">Editar Autor</h2>
+    @using (Html.BeginForm("Atualizar", "Autor", FormMethod.Post, new { @id = "form-autor" }))
     {
+        @Html.HiddenFor(a => a.Id)
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="form-group">
@@ -26,8 +27,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
+        <button type="submit" class="btn btn-warning text-white font-weight-bold">Atualizar</button>
         <a href="@Url.Action("Index", "Autor")" class="btn btn-outline-secondary">Cancelar</a>
     }
 </section>
-

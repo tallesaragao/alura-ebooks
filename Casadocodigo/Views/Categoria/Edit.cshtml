@@ -1,12 +1,12 @@
 ﻿@model Casadocodigo.Models.Categoria
 
 @{
-    ViewData["Title"] = "Nova Categoria";
+    ViewData["Title"] = "Editar Categoria";
 }
 
 <section id="cadastro-categoria">
-    <h2 class="cdc-title">Nova Categoria</h2>
-    @using (Html.BeginForm("Salvar", "Categoria", FormMethod.Post, new { @id = "form-categoria" }))
+    <h2 class="cdc-title">Editar Categoria</h2>
+    @using (Html.BeginForm("Atualizar", "Categoria", FormMethod.Post, new { @id = "form-categoria" }))
     {
         <div class="row">
             <div class="col-12 col-md-6">
@@ -17,8 +17,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
+        <button type="submit" class="btn btn-warning text-white font-weight-bold">Atualizar</button>
         <a href="@Url.Action("Index", "Categoria")" class="btn btn-outline-secondary">Cancelar</a>
     }
 </section>
-

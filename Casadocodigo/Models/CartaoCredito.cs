@@ -11,6 +11,6 @@ namespace Casadocodigo.Models
         public DateTime Validade { get; set; }
         public Bandeira Bandeira { get; set; }
         public string Codigo { get; set; }
-        public bool Ativo { get; set; }
+        public bool Ativo { get; set; } = true;
     }
 }

@@ -17,25 +17,35 @@ namespace Casadocodigo.Repositories.Impl
         public void Activate(Livro livro)
         {
             livro.Ativo = false;
-            context.Livros.Update(livro);
+            dbSet.Update(livro);
             context.SaveChanges();
+        }
+
+        public bool ExistsWithIsbn(string isbn)
+        {
+            return dbSet.Any(livro => livro.Isbn == isbn);
+        }
+
+        public bool ExistsWithNome(string nome)
+        {
+            return dbSet.Any(livro => livro.Nome == nome);
         }
 
         public Livro FindById(int id)
         {
-            return context.Livros.Find(id);
+            return dbSet.Find(id);
         }
 
         public void Inactivate(Livro livro)
         {
             livro.Ativo = true;
-            context.Livros.Update(livro);
+            dbSet.Update(livro);
             context.SaveChanges();
         }
 
         public override IList<Livro> ListAll()
         {
-            return context.Livros
+            return dbSet
                 .Include(l => l.Imagem)
                 .Include(l => l.Precificacao)
                 .ToList();

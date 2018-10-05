@@ -28,6 +28,9 @@ namespace Casadocodigo.DbContexts
                 .ToTable("Categoria")
                 .Property(c => c.Nome)
                 .IsRequired();
+            modelBuilder.Entity<Categoria>()
+                .HasIndex(c => c.Nome)
+                .IsUnique();
 
             modelBuilder.Entity<ItemPedido>()
                 .ToTable("ItemPedido")
@@ -74,9 +77,26 @@ namespace Casadocodigo.DbContexts
             modelBuilder.Entity<Livro>()
                 .Property(l => l.Isbn)
                 .IsRequired();
+            modelBuilder.Entity<Livro>()
+                .HasIndex(l => l.Nome)
+                .IsUnique();
+            modelBuilder.Entity<Livro>()
+                .HasIndex(l => l.Isbn)
+                .IsUnique();
 
             modelBuilder.Entity<CartaoCredito>()
-                .ToTable("CartaoCredito");
+                .ToTable("CartaoCredito")
+                .Property(cc => cc.Numero)
+                .IsRequired();
+            modelBuilder.Entity<CartaoCredito>()
+                .Property(cc => cc.NomeTitular)
+                .IsRequired();
+            modelBuilder.Entity<CartaoCredito>()
+                .Property(cc => cc.Codigo)
+                .IsRequired();
+            modelBuilder.Entity<CartaoCredito>()
+                .Property(cc => cc.Bandeira)
+                .IsRequired();
 
             modelBuilder.Entity<Autor>()
                 .ToTable("Autor")

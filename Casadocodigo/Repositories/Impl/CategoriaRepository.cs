@@ -11,9 +11,19 @@ namespace Casadocodigo.Repositories
     {
         public CategoriaRepository(ApplicationContext context) : base(context) { }
 
+        public bool ExistsWithNome(string nome)
+        {
+            return dbSet.Any(categoria => categoria.Nome == nome);
+        }
+
         public Categoria FindById(int id)
         {
             return context.Categorias.Find(id);
+        }
+
+        public override IList<Categoria> ListAll()
+        {
+            return context.Categorias.OrderBy(categoria => categoria.Nome).ToList();
         }
     }
 }

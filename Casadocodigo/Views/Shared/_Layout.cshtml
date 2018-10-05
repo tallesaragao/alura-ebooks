@@ -20,8 +20,8 @@
             <a class="navbar-brand pt-0 pb-0 mt-0 mb-0" href="@Url.Action("Index", "Livro")">
                 <img src="~/images/logo.png" alt="Logo da Casa do Código" />
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" 
-                    data-target="#navContent" aria-controls="navContent" aria-expanded="false" 
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navContent" aria-controls="navContent" aria-expanded="false"
                     aria-label="Acessar menu de navegação">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -63,6 +63,34 @@
         </div>
     </nav>
 
+    @if (!string.IsNullOrEmpty(TempData["Sucesso"] as string))
+    {
+        <div class="container mt-4">
+            <div class="alert alert-success">
+                <i class="fa fa-check"></i>
+                @TempData["Sucesso"]
+            </div>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(TempData["Erro"] as string))
+    {
+        <div class="container mt-4">
+            <div class="container mt-2 mb-2 alert alert-danger">
+                <i class="fa fa-exclamation-circle"></i>
+                @TempData["Erro"]
+            </div>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(TempData["Aviso"] as string))
+    {
+        <div class="container mt-4">
+            <div class="container mt-2 mb-2 alert alert-warning">
+                <i class="fa fa-exclamation-triangle"></i>
+                @TempData["Aviso"]
+            </div>
+        </div>
+    }
+
     <div class="container mt-4">
         @RenderBody()
     </div>
@@ -72,8 +100,9 @@
         <script src="~/js/popper.js"></script>
         <script src="~/js/bootstrap.js"></script>
         <script src="~/lib/slick/slick.js"></script>
-    </environment> 
+    </environment>
 
     @RenderSection("Scripts", required: false)
+    <sc
 </body>
 </html>

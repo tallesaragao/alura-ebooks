@@ -12,6 +12,7 @@ namespace Casadocodigo.Repositories
         void Update(Categoria categoria);
         void Remove(Categoria categoria);
         IList<Categoria> ListAll();
-        Categoria FindById(int id); 
+        Categoria FindById(int id);
+        bool ExistsWithNome(string nome);
     }
 }

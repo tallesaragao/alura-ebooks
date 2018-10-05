@@ -4,14 +4,16 @@ using Casadocodigo.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Casadocodigo.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20181005150151_LivroNomeIsbnUnicos")]
+    partial class LivroNomeIsbnUnicos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,14 +53,11 @@ namespace Casadocodigo.Migrations
 
                     b.Property<int?>("ClienteId");
 
-                    b.Property<string>("Codigo")
-                        .IsRequired();
+                    b.Property<string>("Codigo");
 
-                    b.Property<string>("NomeTitular")
-                        .IsRequired();
+                    b.Property<string>("NomeTitular");
 
-                    b.Property<string>("Numero")
-                        .IsRequired();
+                    b.Property<string>("Numero");
 
                     b.Property<DateTime>("Validade");
 
@@ -81,9 +80,6 @@ namespace Casadocodigo.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Nome")
-                        .IsUnique();
 
                     b.ToTable("Categoria");
                 });
