@@ -26,14 +26,22 @@ namespace Casadocodigo.Repositories.Impl
             return dbSet.Any(livro => livro.Isbn == isbn);
         }
 
-        public bool ExistsWithNome(string nome)
+        public bool ExistsWithTitulo(string titulo)
         {
-            return dbSet.Any(livro => livro.Nome == nome);
+            return dbSet.Any(livro => livro.Titulo == titulo);
         }
 
         public Livro FindById(int id)
         {
-            return dbSet.Find(id);
+            return dbSet
+                .Include(l => l.Autores)
+                    .ThenInclude(la => la.Autor)
+                .Include(l => l.Categorias)
+                    .ThenInclude(lc => lc.Categoria)
+                .Include(l => l.Precificacao)
+                .Include(l => l.Imagem)
+                .Where(l => l.Id == id)
+                .FirstOrDefault();
         }
 
         public void Inactivate(Livro livro)

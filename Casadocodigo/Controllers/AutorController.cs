@@ -32,7 +32,7 @@ namespace Casadocodigo.Controllers
             return View();
         }
 
-        [Route("Autores/Editar/{id}")]
+        [Route("Autores/{id}/Editar")]
         [HttpGet]
         public IActionResult Edit(int id)
         {

@@ -15,6 +15,6 @@ namespace Casadocodigo.Repositories
         IList<Livro> ListAll();
         Livro FindById(int id);
         bool ExistsWithIsbn(string isbn);
-        bool ExistsWithNome(string nome);
+        bool ExistsWithTitulo(string titulo);
     }
 }

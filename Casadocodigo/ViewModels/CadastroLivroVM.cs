@@ -10,8 +10,13 @@ namespace Casadocodigo.ViewModels
 {
     public class CadastroLivroVM : IViewModel<Livro>
     {
-        [Required(ErrorMessage = "Nome obrigatório")]
-        public string Nome { get; set; }
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Título obrigatório")]
+        public string Titulo { get; set; }
+
+        [Required(ErrorMessage = "Subtítulo obrigatório")]
+        public string Subtitulo { get; set; }
 
         [Required(ErrorMessage = "ISBN obrigatório")]
         public string Isbn { get; set; }
@@ -50,29 +55,48 @@ namespace Casadocodigo.ViewModels
         [FileExtensions(Extensions = "jpg, jpeg", ErrorMessage = "Tipo de arquivo inválido (Somente jpg, jpeg)")]
         public string NomeArquivo { get; set; }
 
-        public Livro Model()
+        private Livro model;
+        public Livro Model
         {
-            var autores = new List<LivroAutor>();
-            foreach(int autorId in AutoresIds)
+            get
             {
-                autores.Add(new LivroAutor() { AutorId = autorId });
-            }
+                var autores = new List<LivroAutor>();
+                foreach (int autorId in AutoresIds)
+                {
+                    autores.Add(new LivroAutor() { AutorId = autorId });
+                }
 
-            var categorias = new List<LivroCategoria>();
-            foreach (int categoriaId in CategoriasIds)
-            {
-                categorias.Add(new LivroCategoria() { CategoriaId = categoriaId });
+                var categorias = new List<LivroCategoria>();
+                foreach (int categoriaId in CategoriasIds)
+                {
+                    categorias.Add(new LivroCategoria() { CategoriaId = categoriaId });
+                }
+                return model;
             }
-            return new Livro()
+            set
             {
-                Nome = Nome,
-                Descricao = Descricao,
-                Paginas = Paginas.Value,
-                Precificacao = new Precificacao() { PrecoUnitario = PrecoUnitario.Value },
-                Isbn = Isbn,
-                Categorias = categorias,
-                Autores = autores                
-            };
+                model = value;
+                int[] autoresIds = new int[value.Autores.Count];
+                for (int i = 0; i < model.Autores.Count; i++)
+                {
+                    autoresIds[i] = model.Autores.ElementAt(i).AutorId;
+                }
+                int[] categoriasIds = new int[model.Categorias.Count];
+                for (int i = 0; i < model.Categorias.Count; i++)
+                {
+                    categoriasIds[i] = model.Categorias.ElementAt(i).CategoriaId;
+                }
+                Id = model.Id;
+                AutoresIds = autoresIds;
+                CategoriasIds = categoriasIds;
+                Titulo = model.Titulo;
+                Subtitulo = model.Subtitulo;
+                Descricao = model.Descricao;
+                Isbn = model.Isbn;
+                Paginas = model.Paginas;
+                PrecoUnitario = model.Precificacao.PrecoUnitario;
+            }
+            
         }
     }
 }

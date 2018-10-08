@@ -37,6 +37,19 @@ namespace Casadocodigo.Controllers
             return View(livros);
         }
 
+        [Route("Livros/{id}")]
+        [HttpGet]
+        public IActionResult Detalhes(int id)
+        {
+            Livro livro = livroRepository.FindById(id);
+            if(livro == null)
+            {
+                TempData["Erro"] = "Livro não encontrado";
+                return RedirectToAction("Index");
+            }
+            return View(livro);
+        }
+
         [Route("Livros/Novo")]
         [HttpGet]
         public IActionResult Form()
@@ -46,17 +59,34 @@ namespace Casadocodigo.Controllers
             return View();
         }
 
+        [Route("Livros/{id}/Editar")]
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Livro livro = livroRepository.FindById(id);
+            if(livro == null)
+            {
+                TempData["Erro"] = "Livro não encontrado";
+                return RedirectToAction("Index");
+            }
+            ViewBag.Autores = autorRepository.ListAll();
+            ViewBag.Categorias = categoriaRepository.ListAll();
+            var viewModel = new CadastroLivroVM();
+            viewModel.Model = livro;
+            return View(viewModel);
+        }
+
         [Route("Livros/Salvar")]
         [HttpPost]
         public IActionResult Salvar(CadastroLivroVM viewModel)
         {
             if (livroRepository.ExistsWithIsbn(viewModel.Isbn))
                 ModelState.AddModelError("Isbn", "Já existe um livro com o ISBN informado");
-            if (livroRepository.ExistsWithNome(viewModel.Nome))
-                ModelState.AddModelError("Nome", "Já existe um livro com o nome informado");
+            if (livroRepository.ExistsWithTitulo(viewModel.Titulo))
+                ModelState.AddModelError("Nome", "Já existe um livro com o título informado");
             if (ModelState.IsValid)
-            {                
-                Livro livro = viewModel.Model();
+            {
+                Livro livro = viewModel.Model;
                 string basePath = Path.Combine(environment.WebRootPath, "images", "produtos");
                 string realPath = FileHelper.Save(basePath, viewModel.Arquivo);
                 livro.Imagem = new Imagem(realPath);
@@ -67,6 +97,29 @@ namespace Casadocodigo.Controllers
             ViewBag.Autores = autorRepository.ListAll();
             ViewBag.Categorias = categoriaRepository.ListAll();
             return View("Form", viewModel);
+        }
+
+        [Route("Livros/Atualizar")]
+        [HttpPost]
+        public IActionResult Atualizar(CadastroLivroVM viewModel)
+        {
+            if (livroRepository.ExistsWithIsbn(viewModel.Isbn))
+                ModelState.AddModelError("Isbn", "Já existe um livro com o ISBN informado");
+            if (livroRepository.ExistsWithTitulo(viewModel.Titulo))
+                ModelState.AddModelError("Nome", "Já existe um livro com o título informado");
+            if (ModelState.IsValid)
+            {
+                Livro livro = viewModel.Model;
+                string basePath = Path.Combine(environment.WebRootPath, "images", "produtos");
+                string realPath = FileHelper.Save(basePath, viewModel.Arquivo);
+                livro.Imagem = new Imagem(realPath);
+                livroRepository.Update(livro);
+                TempData["Sucesso"] = "Livro atualizado com sucesso";
+                return RedirectToAction("Index");
+            }
+            ViewBag.Autores = autorRepository.ListAll();
+            ViewBag.Categorias = categoriaRepository.ListAll();
+            return View("Edit", viewModel);
         }
     }
 }

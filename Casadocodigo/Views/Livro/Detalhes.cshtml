@@ -1,0 +1,30 @@
+﻿@model Casadocodigo.Models.Livro
+
+@{
+    ViewData["Title"] = Model.Titulo;
+}
+
+<section>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <img class="img-fluid" src="@Url.Content(Model.Imagem.CaminhoAcesso)" />
+        </div>
+        <div class="col-12 col-sm-6">
+            <h1>@Model.Titulo</h1>
+            <h3 class="font-weight-light">
+                @for (int i = 0; i < Model.Autores.Count; i++)
+                {
+                    if (i != Model.Autores.Count - 1)
+                    {
+                        @(Model.Autores.ElementAt(i).Autor.Nome + ", ")
+                    }
+                    else
+                    {
+                        @(Model.Autores.ElementAt(i).Autor.Nome)
+                    }
+                }
+            </h3>
+        </div>
+    </div>
+</section>
+

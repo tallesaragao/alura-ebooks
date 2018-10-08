@@ -8,6 +8,7 @@
     <h2 class="cdc-title">Novo Livro</h2>
     @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form-livro" }))
     {
+        @Html.HiddenFor(l => l.Id)
         <div class="row">
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">

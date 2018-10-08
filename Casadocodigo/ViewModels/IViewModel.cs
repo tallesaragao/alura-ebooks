@@ -7,6 +7,6 @@ namespace Casadocodigo.ViewModels
 {
     public interface IViewModel<T> where T : class
     {
-        T Model();
+        T Model { get; set; }
     }
 }

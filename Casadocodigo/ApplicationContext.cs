@@ -69,7 +69,7 @@ namespace Casadocodigo.DbContexts
                 .WithOne()
                 .IsRequired();
             modelBuilder.Entity<Livro>()
-                .Property(l => l.Nome)
+                .Property(l => l.Titulo)
                 .IsRequired();
             modelBuilder.Entity<Livro>()
                 .Property(l => l.Descricao)
@@ -78,7 +78,7 @@ namespace Casadocodigo.DbContexts
                 .Property(l => l.Isbn)
                 .IsRequired();
             modelBuilder.Entity<Livro>()
-                .HasIndex(l => l.Nome)
+                .HasIndex(l => l.Titulo)
                 .IsUnique();
             modelBuilder.Entity<Livro>()
                 .HasIndex(l => l.Isbn)
