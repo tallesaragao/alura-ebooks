@@ -9,9 +9,9 @@ namespace Casadocodigo.Helpers
 {
     public class FileHelper
     {
-        public static string Save(string basePath, IFormFile file)
+        public static string Save(string basePath, string fileName, Stream file)
         {
-            string name = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string name = Guid.NewGuid().ToString() + Path.GetExtension(fileName);
             var realPath = Path.Combine(basePath, name);
             using (var fileStream = File.Create(realPath))
             {
@@ -23,6 +23,11 @@ namespace Casadocodigo.Helpers
         public static void Remove(string filePath)
         {
             File.Delete(filePath);
+        }
+
+        internal static string Save(string basePath, object arquivo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

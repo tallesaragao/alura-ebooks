@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Casadocodigo.DbContexts;
 using Casadocodigo.Repositories;
 using Casadocodigo.Repositories.Impl;
+using Casadocodigo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +45,7 @@ namespace Casadocodigo
 
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            services.AddTransient<LivroService>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IAutorRepository, AutorRepository>();
             services.AddTransient<ILivroRepository, LivroRepository>();

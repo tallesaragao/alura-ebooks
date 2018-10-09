@@ -1,11 +1,11 @@
-﻿@model Casadocodigo.ViewModels.CadastroLivroVM
+﻿@model Casadocodigo.ViewModels.EdicaoLivroVM
 
 @{
-    ViewData["Title"] = "Novo Livro";
+    ViewData["Title"] = "Edição de Livro";
 }
 
 <section id="cadastro-categoria">
-    <h2 class="cdc-title">Novo Livro</h2>
+    <h2 class="cdc-title">Edição de Livro</h2>
     @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form-livro" }))
     {
         @Html.HiddenFor(l => l.Id)
@@ -44,17 +44,6 @@
                     @Html.TextBoxFor(l => l.PrecoUnitario, new { @class = "form-control" })
                     @Html.ValidationMessageFor(l => l.PrecoUnitario, "", new { @class = "text-danger" })
                 </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4">
-                <label for="Arquivo">Imagem:</label>
-                <div class="input-group mb-3">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="Arquivo" name="Arquivo">
-                        <label class="custom-file-label" for="Arquivo">Escolha uma imagem</label>
-                    </div>
-                </div>
-                @Html.ValidationMessageFor(l => l.Arquivo, "", new { @class = "text-danger" })
-                @Html.ValidationMessageFor(l => l.NomeArquivo, "", new { @class = "text-danger" })
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">
