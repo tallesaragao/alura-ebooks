@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Casadocodigo.Application;
 using Casadocodigo.Models;
 using Casadocodigo.Repositories;
+using Casadocodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Casadocodigo.Controllers
 {
     public class AutorController : Controller
     {
-        private IAutorRepository autorRepository;
+        private AutorService autorService;
 
-        public AutorController(IAutorRepository autorRepository)
+        public AutorController(AutorService autorService)
         {
-            this.autorRepository = autorRepository;
+            this.autorService = autorService;
         }
 
         [Route("Autores")]
         [HttpGet]
         public IActionResult Index()
         {
-            var autores = autorRepository.ListAll();
+            var autores = autorService.ListarTodos();
             return View(autores);
         }
 
@@ -36,7 +38,7 @@ namespace Casadocodigo.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Autor autor = autorRepository.FindById(id);
+            Autor autor = autorService.BuscarPorId(id);
             if (autor == null)
             {
                 TempData["Erro"] = "Nenhum autor encontrado";
@@ -51,14 +53,16 @@ namespace Casadocodigo.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (autorRepository.ExistsWithNome(autor.Nome))
+                var erros = autorService.Salvar(autor);
+                foreach (var erro in erros)
                 {
-                    ModelState.AddModelError("Nome", "Já existe um autor com esse nome");
-                    return View("Form", autor);
+                    ModelState.AddModelError(erro.PropertyName, erro.Message);
                 }
-                autorRepository.Save(autor);
-                TempData["Sucesso"] = "Autor cadastrado com sucesso";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    TempData["Sucesso"] = "Autor cadastrado com sucesso";
+                    return RedirectToAction("Index");
+                }
             }
             return View("Form", autor);
         }
@@ -67,19 +71,18 @@ namespace Casadocodigo.Controllers
         [HttpPost]
         public IActionResult Atualizar(Autor autor)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                Autor autorOld = autorRepository.FindById(autor.Id);
-                if (autorOld.Nome != autor.Nome && autorRepository.ExistsWithNome(autor.Nome))
+                IList<ValidationMessage> erros = autorService.Atualizar(autor);
+                foreach (ValidationMessage erro in erros)
                 {
-                    ModelState.AddModelError("Nome", "Já existe um autor com esse nome");
-                    return View("Edit", autor);
+                    ModelState.AddModelError(erro.PropertyName, erro.Message);
                 }
-                autorOld.Nome = autor.Nome;
-                autorOld.Biografia = autor.Biografia;
-                autorRepository.Update(autorOld);
-                TempData["Sucesso"] = "Autor atualizado com sucesso";
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    TempData["Sucesso"] = "Autor atualizado com sucesso";
+                    return RedirectToAction("Index");
+                }
             }
             return View("Edit", autor);
         }

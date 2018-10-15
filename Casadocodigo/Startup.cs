@@ -45,7 +45,11 @@ namespace Casadocodigo
 
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddTransient<LivroService>();
+            services.AddTransient<AutorService>();
+            services.AddTransient<CategoriaService>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IAutorRepository, AutorRepository>();
             services.AddTransient<ILivroRepository, LivroRepository>();

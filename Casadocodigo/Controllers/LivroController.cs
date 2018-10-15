@@ -73,7 +73,7 @@ namespace Casadocodigo.Controllers
             }
             ViewBag.Autores = autorRepository.ListAll();
             ViewBag.Categorias = categoriaRepository.ListAll();
-            var viewModel = new CadastroLivroVM();
+            EdicaoLivroVM viewModel = new EdicaoLivroVM();
             viewModel.Model = livro;
             return View(viewModel);
         }
@@ -110,9 +110,16 @@ namespace Casadocodigo.Controllers
             if (ModelState.IsValid)
             {
                 Livro livro = viewModel.Model;
-                var errors = livroService.Atualizar(livro);
-                TempData["Sucesso"] = "Livro atualizado com sucesso";
-                return RedirectToAction("Index");
+                var erros = livroService.Atualizar(livro);
+                foreach(var erro in erros)
+                {
+                    ModelState.AddModelError(erro.PropertyName, erro.Message);
+                }
+                if (ModelState.IsValid)
+                {
+                    TempData["Sucesso"] = "Livro atualizado com sucesso";
+                    return RedirectToAction("Index");
+                }
             }
             ViewBag.Autores = autorRepository.ListAll();
             ViewBag.Categorias = categoriaRepository.ListAll();

@@ -4,24 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using Casadocodigo.Models;
 using Casadocodigo.Repositories;
+using Casadocodigo.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Casadocodigo.Controllers
 {
     public class CategoriaController : Controller
     {
-        private ICategoriaRepository categoriaRepository;
+        private CategoriaService categoriaService;
 
-        public CategoriaController(ICategoriaRepository categoriaRepository)
+        public CategoriaController(CategoriaService categoriaService)
         {
-            this.categoriaRepository = categoriaRepository;
+            this.categoriaService = categoriaService;
         }
 
         [Route("Categorias")]
         [HttpGet]
         public IActionResult Index()
         {
-            var categorias = categoriaRepository.ListAll();
+            var categorias = categoriaService.ListarTodos();
             return View(categorias);
         }
 
@@ -36,7 +37,7 @@ namespace Casadocodigo.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Categoria categoria = categoriaRepository.FindById(id);
+            Categoria categoria = categoriaService.BuscarPorId(id);
             if(categoria == null)
             {
                 TempData["Erro"] = "Nenhuma categoria encontrada";
@@ -49,13 +50,18 @@ namespace Casadocodigo.Controllers
         [HttpPost]
         public IActionResult Salvar(Categoria categoria)
         {
-            if(categoriaRepository.ExistsWithNome(categoria.Nome))
-                ModelState.AddModelError("Nome", "Já existe uma categoria com o nome informado");
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                categoriaRepository.Save(categoria);
-                TempData["Sucesso"] = "Categoria cadastrada com sucesso";
-                return RedirectToAction("Index");
+                var erros = categoriaService.Salvar(categoria);
+                foreach (var erro in erros)
+                {
+                    ModelState.AddModelError(erro.PropertyName, erro.Message);
+                }
+                if (ModelState.IsValid)
+                {
+                    TempData["Sucesso"] = "Categoria cadastrada com sucesso";
+                    return RedirectToAction("Index");
+                }
             }
             return View("Form", categoria);
         }
@@ -66,9 +72,16 @@ namespace Casadocodigo.Controllers
         {
             if (ModelState.IsValid)
             {
-                categoriaRepository.Update(categoria);
-                TempData["Sucesso"] = "Categoria atualizada com sucesso";
-                return RedirectToAction("Index");
+                var erros = categoriaService.Atualizar(categoria);
+                foreach (var erro in erros)
+                {
+                    ModelState.AddModelError(erro.PropertyName, erro.Message);
+                }
+                if (ModelState.IsValid)
+                {
+                    TempData["Sucesso"] = "Categoria cadastrada com sucesso";
+                    return RedirectToAction("Index");
+                }
             }
             return View("Edit", categoria);
         }

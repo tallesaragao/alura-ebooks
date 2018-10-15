@@ -6,7 +6,7 @@
 
 <section id="cadastro-categoria">
     <h2 class="cdc-title">Edição de Livro</h2>
-    @using (Html.BeginForm("Salvar", "Livro", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form-livro" }))
+    @using (Html.BeginForm("Atualizar", "Livro", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "form-livro" }))
     {
         @Html.HiddenFor(l => l.Id)
         <div class="row">
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-warning text-white font-weight-bold">Salvar</button>
+        <button type="submit" class="btn btn-warning text-white font-weight-bold">Atualizar</button>
         <a href="@Url.Action("", "Livro")" class="btn btn-outline-secondary">Cancelar</a>
     }
 </section>

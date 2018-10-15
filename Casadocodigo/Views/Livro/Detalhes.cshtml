@@ -4,14 +4,14 @@
     ViewData["Title"] = Model.Titulo;
 }
 
-<section>
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            <img class="img-fluid" src="@Url.Content(Model.Imagem.CaminhoAcesso)" />
-        </div>
-        <div class="col-12 col-sm-6">
+<div class="row mb-4">
+    <div class="col-12 col-sm-6">
+        <img class="img-fluid" src="@Url.Content(Model.Imagem.CaminhoAcesso)" />
+    </div>
+    <div class="col-12 col-sm-6 d-flex flex-column">
+        
             <h1>@Model.Titulo</h1>
-            <h3 class="font-weight-light">
+            <h3 class="font-weight-light mb-2">
                 @for (int i = 0; i < Model.Autores.Count; i++)
                 {
                     if (i != Model.Autores.Count - 1)
@@ -24,7 +24,36 @@
                     }
                 }
             </h3>
-        </div>
+            <h3 class="mt-4 mb-4">@string.Format("{0:C}", Model.Precificacao.PrecoUnitario)</h3>
+            <button class="mt-auto mb-2 btn btn-block btn-warning">
+                <i class="fa fa-lg fa-cart-plus text-white mr-3"></i>
+                <span class="text-white font-weight-bold">Adicionar ao carrinho</span>
+            </button>
     </div>
-</section>
+</div>
+<div class="row">
+    <div class="col-12 mt-4">
+        <h2 class="cdc-title">Conteúdo</h2>
+        <p>
+            @Model.Descricao
+        </p>
+    </div>
+    <div class="col-12 mt-4">
+        <h2 class="cdc-title">Autores</h2>
+        @foreach (var autorLivro in Model.Autores)
+        {
+            <h3 class="h4">@autorLivro.Autor.Nome</h3>
+            <p>@autorLivro.Autor.Biografia</p>
+        }
+    </div>
+    <div class="col-12 mt-4">
+        <h2 class="cdc-title">Dados do livro</h2>
+        <dl class="row">
+            <dt class="col-5">ISBN:</dt>
+            <dd class="col-7">@Model.Isbn</dd>
+            <dt class="col-5">Nº de páginas:</dt>
+            <dd class="col-7">@Model.Paginas</dd>
+        </dl>
+    </div>
+</div>
 

@@ -53,14 +53,14 @@ namespace Casadocodigo.Services
 
         public IList<ValidationMessage> Atualizar(Livro livro)
         {
+            Livro livroOld = livroRepository.FindById(livro.Id);
             var erros = new List<ValidationMessage>();
-            if (livroRepository.ExistsWithIsbn(livro.Isbn))
+            if (livro.Isbn != livroOld.Isbn && livroRepository.ExistsWithIsbn(livro.Isbn))
                 erros.Add(new ValidationMessage("Isbn", "Já existe um livro com o ISBN informado"));
-            if (livroRepository.ExistsWithTitulo(livro.Titulo))
-                erros.Add(new ValidationMessage("Nome", "Já existe um livro com o título informado"));
+            if (livro.Titulo != livroOld.Titulo && livroRepository.ExistsWithTitulo(livro.Titulo))
+                erros.Add(new ValidationMessage("Titulo", "Já existe um livro com o título informado"));
             if (erros.Count == 0)
             {
-                Livro livroOld = livroRepository.FindById(livro.Id);
                 livroOld.Isbn = livro.Isbn;
                 livroOld.Paginas = livro.Paginas;
                 livroOld.Precificacao.PrecoUnitario = livro.Precificacao.PrecoUnitario;
