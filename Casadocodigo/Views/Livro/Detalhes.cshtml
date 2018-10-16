@@ -6,7 +6,7 @@
 
 <div class="row mb-4">
     <div class="col-12 col-sm-6">
-        <img class="img-fluid" src="@Url.Content(Model.Imagem.CaminhoAcesso)" />
+        <img class="img-fluid d-block d-sm-inline mx-auto" src="@Url.Content(Model.Imagem.CaminhoAcesso)" />
     </div>
     <div class="col-12 col-sm-6 d-flex flex-column">
         
@@ -25,10 +25,14 @@
                 }
             </h3>
             <h3 class="mt-4 mb-4">@string.Format("{0:C}", Model.Precificacao.PrecoUnitario)</h3>
-            <button class="mt-auto mb-2 btn btn-block btn-warning">
-                <i class="fa fa-lg fa-cart-plus text-white mr-3"></i>
-                <span class="text-white font-weight-bold">Adicionar ao carrinho</span>
-            </button>
+            @using (Html.BeginForm("Adicionar", "Carrinho", FormMethod.Post, new { @class = "mt-auto" }))
+            {
+                <input type="hidden" name="livroId" id="livroId" value="@Model.Id" />
+                <button type="submit" class="btn btn-block btn-warning">
+                    <i class="fa fa-lg fa-cart-plus text-white mr-3"></i>
+                    <span class="text-white font-weight-bold">Adicionar ao carrinho</span>
+                </button>
+            }
     </div>
 </div>
 <div class="row">

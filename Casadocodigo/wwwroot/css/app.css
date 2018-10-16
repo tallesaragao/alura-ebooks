@@ -20,3 +20,12 @@
     border-bottom: 1px solid #F8965D;
     margin-bottom: 15px;
 }
+
+.livro-thumbnail {
+    max-height: 75px;
+    width: auto;
+}
+
+.input-qtd-item {
+    max-width: 50px;
+}

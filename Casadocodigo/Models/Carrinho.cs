@@ -21,6 +21,8 @@ namespace Casadocodigo.Models
             }
         }
 
+        public int Quantidade { get => Pedido.ItensPedido.Count; }
+
         public void Adicionar(Livro livro)
         {
             ItemPedido item = new ItemPedido()
@@ -48,6 +50,16 @@ namespace Casadocodigo.Models
         {
             ItemPedido itemPedido = Pedido.ItensPedido.Where(ip => ip.LivroId == livroId).Single();
             Pedido.ItensPedido.Remove(itemPedido);
+        }
+
+        public bool HasItens()
+        {
+            return Pedido.ItensPedido.Count > 0;
+        }
+
+        public bool HasLivro(int livroId)
+        {
+            return Pedido.ItensPedido.Any(ip => ip.LivroId == livroId);
         }
     }
 }

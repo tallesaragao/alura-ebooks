@@ -4,9 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Casadocodigo.DbContexts;
+using Casadocodigo.Extensions;
+using Casadocodigo.Models;
 using Casadocodigo.Repositories;
 using Casadocodigo.Repositories.Impl;
 using Casadocodigo.Services;
+using Casadocodigo.Session;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +49,9 @@ namespace Casadocodigo
             string connectionString = Configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
             services.AddDistributedMemoryCache();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession();
+            services.AddTransient<CarrinhoSession>();
             services.AddTransient<LivroService>();
             services.AddTransient<AutorService>();
             services.AddTransient<CategoriaService>();
@@ -71,6 +76,7 @@ namespace Casadocodigo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

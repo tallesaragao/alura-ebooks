@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Casadocodigo.Extensions;
 using Casadocodigo.Helpers;
 using Casadocodigo.Models;
 using Casadocodigo.Repositories;
@@ -17,13 +18,15 @@ namespace Casadocodigo.Controllers
 {
     public class LivroController : Controller
     {
+        private ISession session;
         private IHostingEnvironment environment;
         private IAutorRepository autorRepository;
         private LivroService livroService;
         private ICategoriaRepository categoriaRepository;
 
-        public LivroController(IHostingEnvironment environment, IAutorRepository autorRepository, LivroService livroService, ICategoriaRepository categoriaRepository)
+        public LivroController(IHttpContextAccessor contextAccessor, IHostingEnvironment environment, IAutorRepository autorRepository, LivroService livroService, ICategoriaRepository categoriaRepository)
         {
+            this.session = contextAccessor.HttpContext.Session;
             this.environment = environment;
             this.autorRepository = autorRepository;
             this.livroService = livroService;

@@ -1,0 +1,101 @@
+﻿@model Casadocodigo.Models.Carrinho
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section id="lista-autores">
+
+    <h2 class="cdc-title">Carrinho</h2>
+
+    <div class="row">
+        <div class="col-12 col-md-8 my-1">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th><span class="invisible">Imagem</span></th>
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Preço</th>
+                                    <th class="text-center">Quantidade</th>
+                                    <th class="text-center">Subtotal</th>
+                                    <th class="text-center"><i class="fa fa-cog"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (!Model.HasItens())
+                                {
+                                    <tr>
+                                        <td colspan="5">Nenhum item adicionado</td>
+                                    </tr>
+                                }
+                                @foreach (var item in Model.Pedido.ItensPedido)
+                                {
+                                    <tr>
+                                        <td class="text-center">
+                                            <img class="livro-thumbnail" src="@Url.Content(item.Livro.Imagem.CaminhoAcesso)" />
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @if (string.IsNullOrEmpty(item.Livro.Subtitulo))
+                                            {
+                                                @item.Livro.Titulo
+                                            }
+                                            else
+                                            {
+                                                @(item.Livro.Titulo + ": " + item.Livro.Subtitulo)
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @string.Format("{0:C}", item.Livro.Precificacao.PrecoUnitario)
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @using (Html.BeginForm("Alterar", "Carrinho", FormMethod.Post))
+                                            {
+                                                <div class="d-flex justify-content-center">
+                                                    <input type="hidden" name="livroId" id="livroId" value="@item.Livro.Id"/>
+                                                    <input type="text" class="form-control form-control-sm input-qtd-item ml-3" 
+                                                            name="quantidade" value="@item.Quantidade" aria-label="Quantidade" >
+                                                    <button class="btn btn-sm btn-link" type="submit" aria-label="Atualizar">
+                                                        <i class="fa fa-sync-alt"></i>
+                                                    </button>
+                                                </div>                                                
+                                            }
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @string.Format("{0:C}", item.Subtotal)
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            @using (Html.BeginForm("Remover", "Carrinho", FormMethod.Post))
+                                            {
+                                                <input type="hidden" name="livroId" id="livroId" value="@item.Livro.Id" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Remover">
+                                                    <i class="fa fa-trash-alt"></i>
+                                                </button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4 my-1">
+            <div class="jumbotron h-100 d-flex flex-column">
+                <h3><strong>Frete: -</strong></h3>
+                <h3><strong>Total: </strong>@string.Format("{0:C}", Model.Total)</h3>
+                <div class="mt-auto">
+                    <a href="#" class="btn btn-block btn-warning text-white font-weight-bold">Finalizar Pedido</a>
+                    <div class="d-flex justify-content-center">
+                        <a href="@Url.Action("Index", "Livro")" class="pt-2">Continuar comprando</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
