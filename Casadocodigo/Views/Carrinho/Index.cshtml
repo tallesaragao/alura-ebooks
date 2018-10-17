@@ -85,9 +85,32 @@
         </div>
         
         <div class="col-12 col-md-4 my-1">
-            <div class="jumbotron h-100 d-flex flex-column">
-                <h3><strong>Frete: -</strong></h3>
-                <h3><strong>Total: </strong>@string.Format("{0:C}", Model.Total)</h3>
+            <div class="jumbotron py-3">
+                <h3>Cálculo de frete</h3>
+                <form id="formFrete">
+                    <div class="input-group">
+                        <input type="text" id="cep" placeholder="Digite o CEP" name="cep" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="submit" id="btnCalcularFrete" class="btn btn-secondary">
+                                <span>Calcular</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="list-unstyled pt-2">
+                    <li>
+                        <strong>Valor: </strong>
+                        <span id="valorFrete"></span>
+                    </li>
+                    <li>
+                        <strong>Prazo estimado: </strong>
+                        <span id="prazoEntrega"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="jumbotron d-flex flex-column">
+                <h3><strong>Frete: </strong><span id="valorFrete">-</span></h3>
+                <h3><strong>Total: </strong><span id="total"></span>@string.Format("{0:C}", Model.Total)</h3>
                 <div class="mt-auto">
                     <a href="#" class="btn btn-block btn-warning text-white font-weight-bold">Finalizar Pedido</a>
                     <div class="d-flex justify-content-center">
@@ -98,4 +121,73 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#formFrete").on("submit", calcularFrete)
+        });
+
+        function calcularFrete(event) {
+            event.preventDefault();
+            adicionarIconeCarregamento(this);
+            var cep = $("#cep").val();
+
+            var viewModel = {
+                cep: cep
+            };
+
+            $.post({
+                url: "@Url.Action("Calcular", "Frete")",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(viewModel)
+            }).done(function (frete) {
+                $("#valorFrete").html(formatarValor(frete.valor));
+                $("#prazoEntrega").html(frete.prazoEntrega + " dias");
+            }).fail(function (xhr, exception) {
+                alert("Não foi possível calcular o frete");
+            }).always(function () {
+                removerIconeCarregamento(this);
+            })
+        }
+
+        function adicionarIconeCarregamento() {
+            var icon = document.createElement("i");
+            icon.className = "fa fa-spinner fa-spin";
+            icon.id = "icone-frete";
+            $("#btnCalcularFrete span").replaceWith(icon);
+        }
+
+        function calcularFreteAjax(cep) {
+            
+        }
+
+        function removerIconeCarregamento(elemento) {
+            var conteudo = document.createElement("span");
+            conteudo.innerHTML = "Calcular";
+            $("#icone-frete").replaceWith(conteudo);
+        }
+
+        function formatarValor(valor) {
+            valor = "" + valor;
+            var valorFormatado = "";
+            var valores = valor.replace(".", ",").split(",");
+            var x = [];
+            if (valores.length == 1) {
+                valorFormatado = "R$ " + valor + ",00";
+            } else if (valores.length == 2) {
+                var decimais = valores[1];
+                if (decimais.length < 2) {
+                    decimais = decimais + "0";
+                }
+                valorFormatado = "R$ " + valores[0] + "," + decimais;
+            } else {
+                throw new Error("Valor inválido");
+            }
+            return valorFormatado;
+        }
+
+    </script>
+}
 
