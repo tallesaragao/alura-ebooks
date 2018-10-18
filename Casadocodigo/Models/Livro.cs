@@ -11,6 +11,8 @@ namespace Casadocodigo.Models
         public string Titulo { get; set; }
         public string Subtitulo { get; set; }
         public string Isbn { get; set; }
+        public int DimensoesId { get; set; }
+        public Dimensoes Dimensoes { get; set; }
         public Imagem Imagem { get; set; }
         public int Paginas { get; set; }
         public string Descricao { get; set; }

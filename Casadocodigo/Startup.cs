@@ -55,6 +55,7 @@ namespace Casadocodigo
             services.AddTransient<LivroService>();
             services.AddTransient<AutorService>();
             services.AddTransient<CategoriaService>();
+            services.AddTransient<CorreiosService>();
             services.AddTransient<ICategoriaRepository, CategoriaRepository>();
             services.AddTransient<IAutorRepository, AutorRepository>();
             services.AddTransient<ILivroRepository, LivroRepository>();

@@ -25,6 +25,7 @@ namespace Casadocodigo.ViewModels
         public virtual int? Paginas { get; set; }
 
         [Required(ErrorMessage = "Preço unitário obrigatório")]
+        [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "Preço unitário inválido")]
         public virtual decimal? PrecoUnitario { get; set; }
 
         [Required(ErrorMessage = "Selecione ao menos um autor")]
@@ -32,6 +33,23 @@ namespace Casadocodigo.ViewModels
 
         [Required(ErrorMessage = "Selecione ao menos uma categoria")]
         public virtual int[] CategoriasIds { get; set; }
+
+        [Required(ErrorMessage = "Altura obrigatória")]
+        [Range(0.1, (double)decimal.MaxValue, ErrorMessage = "Altura inválida")]
+        public virtual decimal? Altura { get; set; }
+
+        [Required(ErrorMessage = "Largura obrigatória")]
+        [Range(0.1, (double)decimal.MaxValue, ErrorMessage = "Largura inválida")]
+        public virtual decimal? Largura { get; set; }
+
+        [Required(ErrorMessage = "Profundidade obrigatória")]
+        [Range(0.1, (double) decimal.MaxValue, ErrorMessage = "Profundidade inválida")]
+        public virtual decimal? Profundidade { get; set; }
+
+        [Required(ErrorMessage = "Peso obrigatório")]
+        [Range(1, (double)decimal.MaxValue, ErrorMessage = "Peso inválido")]
+        public virtual decimal? Peso { get; set; }
+
 
         protected Livro model = new Livro();
         public virtual Livro Model
@@ -45,6 +63,13 @@ namespace Casadocodigo.ViewModels
                 model.Precificacao.PrecoUnitario = PrecoUnitario ?? 0;
                 model.Subtitulo = Subtitulo;
                 model.Titulo = Titulo;
+                model.Dimensoes = new Dimensoes()
+                {
+                    Altura = Altura ?? 0,
+                    Largura = Largura ?? 0,
+                    Profundidade = Profundidade ?? 0,
+                    Peso = Peso ?? 0
+                };
                 var autores = new List<LivroAutor>();
                 if (AutoresIds != null)
                 { 
@@ -78,6 +103,10 @@ namespace Casadocodigo.ViewModels
                 {
                     categoriasIds[i] = model.Categorias.ElementAt(i).CategoriaId;
                 }
+                Altura = model.Dimensoes.Altura;
+                Largura = model.Dimensoes.Largura;
+                Profundidade = model.Dimensoes.Profundidade;
+                Peso = model.Dimensoes.Peso;
                 AutoresIds = autoresIds;
                 CategoriasIds = categoriasIds;
                 Titulo = model.Titulo;

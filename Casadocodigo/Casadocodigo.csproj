@@ -11,6 +11,12 @@
     <Compile Remove="Migrations\20181003120138_Categorias.Designer.cs" />
     <Compile Remove="Migrations\20181004150640_teste.cs" />
     <Compile Remove="Migrations\20181004150640_teste.Designer.cs" />
+    <Compile Remove="Migrations\20181018121605_PedidoFrete.cs" />
+    <Compile Remove="Migrations\20181018121605_PedidoFrete.Designer.cs" />
+    <Compile Remove="Migrations\20181018123031_PedidoFrete.cs" />
+    <Compile Remove="Migrations\20181018123031_PedidoFrete.Designer.cs" />
+    <Compile Remove="Migrations\20181018125718_PedidoFrete.cs" />
+    <Compile Remove="Migrations\20181018125718_PedidoFrete.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

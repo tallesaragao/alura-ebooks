@@ -69,6 +69,7 @@ namespace Casadocodigo.Services
                 livroOld.Autores = livro.Autores;
                 livroOld.Categorias = livro.Categorias;
                 livroOld.Descricao = livro.Descricao;
+                livroOld.Dimensoes = livro.Dimensoes;
                 livroRepository.Update(livroOld);
             }
             return erros;

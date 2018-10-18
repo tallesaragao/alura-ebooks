@@ -32,6 +32,34 @@
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="form-group">
+                    @Html.LabelFor(l => l.Altura, "Altura (cm):")
+                    @Html.TextBoxFor(l => l.Altura, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Altura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Largura, "Largura (cm):")
+                    @Html.TextBoxFor(l => l.Largura, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Largura, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Profundidade, "Profundidade (cm):")
+                    @Html.TextBoxFor(l => l.Profundidade, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Profundidade, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(l => l.Peso, "Peso (g):")
+                    @Html.TextBoxFor(l => l.Peso, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(l => l.Peso, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="form-group">
                     @Html.LabelFor(l => l.Isbn, "ISBN:")
                     @Html.TextBoxFor(l => l.Isbn, new { @class = "form-control" })
                     @Html.ValidationMessageFor(l => l.Isbn, "", new { @class = "text-danger" })

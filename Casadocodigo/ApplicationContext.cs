@@ -22,7 +22,22 @@ namespace Casadocodigo.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pedido>()
-                .ToTable("Pedido");
+                .ToTable("Pedido")
+                .HasOne(p => p.Frete)
+                .WithOne()
+                .IsRequired();
+            modelBuilder.Entity<Pedido>()
+                .Property(p => p.Total)
+                .IsRequired();
+            modelBuilder.Entity<Pedido>()
+                .Property(p => p.Subtotal)
+                .IsRequired();
+
+            modelBuilder.Entity<Frete>()
+                .Property<int>("PedidoId");
+            modelBuilder.Entity<Frete>()
+                .ToTable("Frete")
+                .HasKey("PedidoId");
 
             modelBuilder.Entity<Categoria>()
                 .ToTable("Categoria")
@@ -64,6 +79,9 @@ namespace Casadocodigo.DbContexts
                 .HasOne(l => l.Precificacao)
                 .WithOne()
                 .IsRequired();
+            modelBuilder.Entity<Livro>()
+                .HasOne(l => l.Dimensoes)
+                .WithOne();
             modelBuilder.Entity<Livro>()
                 .HasOne(l => l.Imagem)
                 .WithOne()

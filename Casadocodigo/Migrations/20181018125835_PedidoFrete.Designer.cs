@@ -4,14 +4,16 @@ using Casadocodigo.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Casadocodigo.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20181018125835_PedidoFrete")]
+    partial class PedidoFrete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,11 +126,11 @@ namespace Casadocodigo.Migrations
 
                     b.Property<decimal>("Altura");
 
+                    b.Property<decimal>("Comprimento");
+
                     b.Property<decimal>("Largura");
 
                     b.Property<decimal>("Peso");
-
-                    b.Property<decimal>("Profundidade");
 
                     b.HasKey("Id");
 

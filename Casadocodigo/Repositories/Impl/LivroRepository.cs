@@ -40,6 +40,7 @@ namespace Casadocodigo.Repositories.Impl
                     .ThenInclude(lc => lc.Categoria)
                 .Include(l => l.Precificacao)
                 .Include(l => l.Imagem)
+                .Include(l => l.Dimensoes)
                 .Where(l => l.Id == id)
                 .FirstOrDefault();
         }
