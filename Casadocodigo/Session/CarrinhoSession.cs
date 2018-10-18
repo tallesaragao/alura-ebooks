@@ -3,6 +3,7 @@ using Casadocodigo.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,9 +38,17 @@ namespace Casadocodigo.Session
             }
         }
 
-        public decimal Total { get => carrinho.Total; }
+        public decimal Subtotal { get => carrinho.Subtotal; }
 
         public int Quantidade { get => carrinho.Quantidade; }
+
+        public IList<ItemPedido> Itens
+        {
+            get
+            {
+                return new ReadOnlyCollection<ItemPedido>(carrinho.Itens);
+            }
+        }
 
         public void Adicionar(Livro livro)
         {
@@ -73,6 +82,12 @@ namespace Casadocodigo.Session
         public bool HasLivro(int livroId)
         {
             return carrinho.HasLivro(livroId);
+        }
+
+        public void AdicionarFrete(Frete frete)
+        {
+            carrinho.AdicionarFrete(frete);
+            session.SetObject("Carrinho", carrinho);
         }
     }
 }

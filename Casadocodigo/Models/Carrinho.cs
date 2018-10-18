@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,15 +14,23 @@ namespace Casadocodigo.Models
         }
         public Pedido Pedido { get; set; }
 
-        public decimal Total
+        public decimal Subtotal
         {
             get
             {
-                return Pedido.ItensPedido.Sum(ip => ip.Subtotal);
+                return Pedido.Subtotal;
             }
         }
 
         public int Quantidade { get => Pedido.ItensPedido.Count; }
+
+        public IList<ItemPedido> Itens
+        {
+            get
+            {
+                return new ReadOnlyCollection<ItemPedido>(Pedido.ItensPedido);
+            }
+        }
 
         public void Adicionar(Livro livro)
         {
@@ -60,6 +69,11 @@ namespace Casadocodigo.Models
         public bool HasLivro(int livroId)
         {
             return Pedido.ItensPedido.Any(ip => ip.LivroId == livroId);
+        }
+
+        public void AdicionarFrete(Frete frete)
+        {
+            Pedido.Frete = frete;
         }
     }
 }

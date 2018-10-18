@@ -25,8 +25,9 @@ namespace Casadocodigo.Controllers
         [HttpPost]
         public async Task<JsonResult> Calcular([FromBody] ConsultaFreteVM viewModel)
         {
-            Frete frete = await correiosService.CalcularFrete(viewModel.Cep, carrinhoSession.Carrinho.Pedido.ItensPedido);
-            return Json(frete);
+            Frete frete = await correiosService.CalcularFrete(viewModel.Cep, carrinhoSession.Itens);
+            carrinhoSession.AdicionarFrete(frete);
+            return Json(new { frete, subtotal = carrinhoSession.Subtotal });
         }
     }
 }

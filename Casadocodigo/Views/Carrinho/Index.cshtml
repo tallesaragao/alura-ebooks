@@ -1,4 +1,4 @@
-﻿@model Casadocodigo.Models.Carrinho
+﻿@model Carrinho
 
 @{
     ViewData["Title"] = "Index";
@@ -100,7 +100,7 @@
                 <ul class="list-unstyled pt-2">
                     <li>
                         <strong>Valor: </strong>
-                        <span id="valorFrete"></span>
+                        <span class="valorFrete"></span>
                     </li>
                     <li>
                         <strong>Prazo estimado: </strong>
@@ -109,8 +109,8 @@
                 </ul>
             </div>
             <div class="jumbotron d-flex flex-column">
-                <h3><strong>Frete: </strong><span id="valorFrete">-</span></h3>
-                <h3><strong>Total: </strong><span id="total"></span>@string.Format("{0:C}", Model.Total)</h3>
+                <h3><strong>Subtotal: </strong><span id="subtotal">@string.Format("{0:C}", Model.Subtotal)</span></h3>
+                <h3><strong>Frete: </strong><span class="valorFrete">-</span></h3>
                 <div class="mt-auto">
                     <a href="#" class="btn btn-block btn-warning text-white font-weight-bold">Finalizar Pedido</a>
                     <div class="d-flex justify-content-center">
@@ -130,7 +130,7 @@
 
         function calcularFrete(event) {
             event.preventDefault();
-            adicionarIconeCarregamento(this);
+            adicionarIconeCarregamento();
             var cep = $("#cep").val();
 
             var viewModel = {
@@ -142,28 +142,26 @@
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(viewModel)
-            }).done(function (frete) {
-                $("#valorFrete").html(formatarValor(frete.valor));
-                $("#prazoEntrega").html(frete.prazoEntrega + " dias");
+            }).done(function (result) {
+                console.log(result);
+                $(".valorFrete").html(formatarValor(result.frete.valor));
+                $("#prazoEntrega").html(result.frete.prazoEntrega + " dias");
+                $("#subtotal").html(formatarValor(result.subtotal));
             }).fail(function (xhr, exception) {
                 alert("Não foi possível calcular o frete");
             }).always(function () {
-                removerIconeCarregamento(this);
+                removerIconeCarregamento();
             })
         }
 
         function adicionarIconeCarregamento() {
-            var icon = document.createElement("i");
-            icon.className = "fa fa-spinner fa-spin";
-            icon.id = "icone-frete";
-            $("#btnCalcularFrete span").replaceWith(icon);
+            var iconeFrete = document.createElement("i");
+            iconeFrete.className = "fa fa-spinner fa-spin";
+            iconeFrete.id = "icone-frete";
+            $("#btnCalcularFrete span").replaceWith(iconeFrete);
         }
 
-        function calcularFreteAjax(cep) {
-            
-        }
-
-        function removerIconeCarregamento(elemento) {
+        function removerIconeCarregamento() {
             var conteudo = document.createElement("span");
             conteudo.innerHTML = "Calcular";
             $("#icone-frete").replaceWith(conteudo);
