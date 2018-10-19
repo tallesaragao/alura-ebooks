@@ -35,7 +35,9 @@
                                 {
                                     <tr>
                                         <td class="text-center">
-                                            <img class="livro-thumbnail" src="@Url.Content(item.Livro.Imagem.CaminhoAcesso)" />
+                                            <a href="@Url.Action("Detalhes", "Livro", new { id = item.LivroId })">
+                                                <img class="livro-thumbnail" src="@Url.Content(item.Livro.Imagem.CaminhoAcesso)" />
+                                            </a>
                                         </td>
                                         <td class="align-middle text-center">
                                             @if (string.IsNullOrEmpty(item.Livro.Subtitulo))

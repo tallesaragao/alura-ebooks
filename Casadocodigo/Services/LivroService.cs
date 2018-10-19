@@ -65,7 +65,7 @@ namespace Casadocodigo.Services
                 livroOld.Paginas = livro.Paginas;
                 livroOld.Precificacao.PrecoUnitario = livro.Precificacao.PrecoUnitario;
                 livroOld.Titulo = livro.Titulo;
-                livroOld.Subtitulo = livro.Titulo;
+                livroOld.Subtitulo = livro.Subtitulo;
                 livroOld.Autores = livro.Autores;
                 livroOld.Categorias = livro.Categorias;
                 livroOld.Descricao = livro.Descricao;

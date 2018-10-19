@@ -15,7 +15,7 @@
                         <img class="card-img-top" src="@Url.Content(livro.Imagem.CaminhoAcesso)" />
                     </a>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title font-weight-bold">R$ @livro.Precificacao.PrecoUnitario</h5>
+                        <h5 class="card-title font-weight-bold">@string.Format("{0:C}", livro.Precificacao.PrecoUnitario)</h5>
                         <a href="@Url.Action("Detalhes", "Livro", new { id = livro.Id })" 
                            class="btn btn-block btn-warning font-weight-bold text-white mt-auto">Comprar</a>
                     </div>
