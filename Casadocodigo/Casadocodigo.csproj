@@ -5,21 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20181002142603_Inicial.cs" />
-    <Compile Remove="Migrations\20181002142603_Inicial.Designer.cs" />
-    <Compile Remove="Migrations\20181003120138_Categorias.cs" />
-    <Compile Remove="Migrations\20181003120138_Categorias.Designer.cs" />
-    <Compile Remove="Migrations\20181004150640_teste.cs" />
-    <Compile Remove="Migrations\20181004150640_teste.Designer.cs" />
-    <Compile Remove="Migrations\20181018121605_PedidoFrete.cs" />
-    <Compile Remove="Migrations\20181018121605_PedidoFrete.Designer.cs" />
-    <Compile Remove="Migrations\20181018123031_PedidoFrete.cs" />
-    <Compile Remove="Migrations\20181018123031_PedidoFrete.Designer.cs" />
-    <Compile Remove="Migrations\20181018125718_PedidoFrete.cs" />
-    <Compile Remove="Migrations\20181018125718_PedidoFrete.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CreditCardValidator" Version="1.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
@@ -29,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.4.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.*" />

@@ -47,7 +47,7 @@ namespace Casadocodigo
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             string connectionString = Configuration.GetConnectionString("Default");
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<ApplicationContext>(options => options.UseMySql(connectionString));
             services.AddDistributedMemoryCache();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession();

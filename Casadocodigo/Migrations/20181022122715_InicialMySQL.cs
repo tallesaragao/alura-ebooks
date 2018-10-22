@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Casadocodigo.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class InicialMySQL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,9 @@ namespace Casadocodigo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
+                    Biografia = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,8 +27,8 @@ namespace Casadocodigo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
                     Ativa = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -36,16 +37,33 @@ namespace Casadocodigo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Dimensoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Altura = table.Column<decimal>(nullable: false),
+                    Largura = table.Column<decimal>(nullable: false),
+                    Profundidade = table.Column<decimal>(nullable: false),
+                    Peso = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dimensoes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Livro",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: false),
-                    Codigo = table.Column<string>(nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Titulo = table.Column<string>(nullable: false),
+                    Subtitulo = table.Column<string>(nullable: true),
+                    Isbn = table.Column<string>(nullable: false),
+                    DimensoesId = table.Column<int>(nullable: false),
                     Paginas = table.Column<int>(nullable: false),
                     Descricao = table.Column<string>(nullable: false),
-                    AutorId = table.Column<int>(nullable: false),
                     DataCadastro = table.Column<DateTime>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false)
                 },
@@ -53,9 +71,54 @@ namespace Casadocodigo.Migrations
                 {
                     table.PrimaryKey("PK_Livro", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Livro_Autor_AutorId",
+                        name: "FK_Livro_Dimensoes_DimensoesId",
+                        column: x => x.DimensoesId,
+                        principalTable: "Dimensoes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Imagem",
+                columns: table => new
+                {
+                    CaminhoReal = table.Column<string>(nullable: false),
+                    CaminhoAcesso = table.Column<string>(nullable: false),
+                    Extensao = table.Column<string>(nullable: false),
+                    DataCadastro = table.Column<DateTime>(nullable: false),
+                    LivroId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Imagem", x => x.LivroId);
+                    table.ForeignKey(
+                        name: "FK_Imagem_Livro_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livro",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LivroAutor",
+                columns: table => new
+                {
+                    LivroId = table.Column<int>(nullable: false),
+                    AutorId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LivroAutor", x => new { x.LivroId, x.AutorId });
+                    table.ForeignKey(
+                        name: "FK_LivroAutor_Autor_AutorId",
                         column: x => x.AutorId,
                         principalTable: "Autor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LivroAutor_Livro_LivroId",
+                        column: x => x.LivroId,
+                        principalTable: "Livro",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,12 +170,12 @@ namespace Casadocodigo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    NomeTitular = table.Column<string>(nullable: true),
-                    Numero = table.Column<string>(nullable: true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NomeTitular = table.Column<string>(nullable: false),
+                    Numero = table.Column<string>(nullable: false),
                     Validade = table.Column<DateTime>(nullable: false),
                     Bandeira = table.Column<int>(nullable: false),
-                    Codigo = table.Column<string>(nullable: true),
+                    Codigo = table.Column<string>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false),
                     ClienteId = table.Column<int>(nullable: true)
                 },
@@ -122,11 +185,11 @@ namespace Casadocodigo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Enderecos",
+                name: "Endereco",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Cep = table.Column<string>(nullable: false),
                     Logradouro = table.Column<string>(nullable: false),
                     Numero = table.Column<int>(nullable: false),
@@ -139,7 +202,7 @@ namespace Casadocodigo.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Enderecos", x => x.Id);
+                    table.PrimaryKey("PK_Endereco", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,7 +210,7 @@ namespace Casadocodigo.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Cpf = table.Column<string>(nullable: false),
                     DataNascimento = table.Column<DateTime>(nullable: false),
@@ -159,31 +222,52 @@ namespace Casadocodigo.Migrations
                 {
                     table.PrimaryKey("PK_Cliente", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cliente_Enderecos_EnderecoPrincipalId",
+                        name: "FK_Cliente_Endereco_EnderecoPrincipalId",
                         column: x => x.EnderecoPrincipalId,
-                        principalTable: "Enderecos",
+                        principalTable: "Endereco",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pedidos",
+                name: "Pedido",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Codigo = table.Column<string>(nullable: true),
                     ClienteId = table.Column<int>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    DataRealizacao = table.Column<DateTime>(nullable: false)
+                    DataRealizacao = table.Column<DateTime>(nullable: false),
+                    Subtotal = table.Column<decimal>(nullable: false),
+                    Total = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pedidos", x => x.Id);
+                    table.PrimaryKey("PK_Pedido", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pedidos_Cliente_ClienteId",
+                        name: "FK_Pedido_Cliente_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Cliente",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Frete",
+                columns: table => new
+                {
+                    Valor = table.Column<decimal>(nullable: false),
+                    PrazoEntrega = table.Column<int>(nullable: false),
+                    PedidoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Frete", x => x.PedidoId);
+                    table.ForeignKey(
+                        name: "FK_Frete_Pedido_PedidoId",
+                        column: x => x.PedidoId,
+                        principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -207,17 +291,29 @@ namespace Casadocodigo.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemPedido_Pedidos_PedidoId",
+                        name: "FK_ItemPedido_Pedido_PedidoId",
                         column: x => x.PedidoId,
-                        principalTable: "Pedidos",
+                        principalTable: "Pedido",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Autor_Nome",
+                table: "Autor",
+                column: "Nome",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CartaoCredito_ClienteId",
                 table: "CartaoCredito",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categoria_Nome",
+                table: "Categoria",
+                column: "Nome",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cliente_EnderecoPrincipalId",
@@ -226,8 +322,8 @@ namespace Casadocodigo.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enderecos_ClienteId",
-                table: "Enderecos",
+                name: "IX_Endereco_ClienteId",
+                table: "Endereco",
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
@@ -236,8 +332,26 @@ namespace Casadocodigo.Migrations
                 column: "LivroId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livro_AutorId",
+                name: "IX_Livro_DimensoesId",
                 table: "Livro",
+                column: "DimensoesId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Livro_Isbn",
+                table: "Livro",
+                column: "Isbn",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Livro_Titulo",
+                table: "Livro",
+                column: "Titulo",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LivroAutor_AutorId",
+                table: "LivroAutor",
                 column: "AutorId");
 
             migrationBuilder.CreateIndex(
@@ -246,8 +360,8 @@ namespace Casadocodigo.Migrations
                 column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pedidos_ClienteId",
-                table: "Pedidos",
+                name: "IX_Pedido_ClienteId",
+                table: "Pedido",
                 column: "ClienteId");
 
             migrationBuilder.AddForeignKey(
@@ -259,8 +373,8 @@ namespace Casadocodigo.Migrations
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Enderecos_Cliente_ClienteId",
-                table: "Enderecos",
+                name: "FK_Endereco_Cliente_ClienteId",
+                table: "Endereco",
                 column: "ClienteId",
                 principalTable: "Cliente",
                 principalColumn: "Id",
@@ -270,14 +384,23 @@ namespace Casadocodigo.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Enderecos_Cliente_ClienteId",
-                table: "Enderecos");
+                name: "FK_Endereco_Cliente_ClienteId",
+                table: "Endereco");
 
             migrationBuilder.DropTable(
                 name: "CartaoCredito");
 
             migrationBuilder.DropTable(
+                name: "Frete");
+
+            migrationBuilder.DropTable(
+                name: "Imagem");
+
+            migrationBuilder.DropTable(
                 name: "ItemPedido");
+
+            migrationBuilder.DropTable(
+                name: "LivroAutor");
 
             migrationBuilder.DropTable(
                 name: "LivroCategoria");
@@ -286,7 +409,10 @@ namespace Casadocodigo.Migrations
                 name: "Precificacao");
 
             migrationBuilder.DropTable(
-                name: "Pedidos");
+                name: "Pedido");
+
+            migrationBuilder.DropTable(
+                name: "Autor");
 
             migrationBuilder.DropTable(
                 name: "Categoria");
@@ -295,13 +421,13 @@ namespace Casadocodigo.Migrations
                 name: "Livro");
 
             migrationBuilder.DropTable(
-                name: "Autor");
+                name: "Dimensoes");
 
             migrationBuilder.DropTable(
                 name: "Cliente");
 
             migrationBuilder.DropTable(
-                name: "Enderecos");
+                name: "Endereco");
         }
     }
 }

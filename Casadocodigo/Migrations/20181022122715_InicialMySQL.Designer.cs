@@ -3,29 +3,26 @@ using System;
 using Casadocodigo.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Casadocodigo.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20181008123339_LivroSubtitulo")]
-    partial class LivroSubtitulo
+    [Migration("20181022122715_InicialMySQL")]
+    partial class InicialMySQL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Casadocodigo.Models.Autor", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Biografia")
                         .IsRequired();
@@ -44,8 +41,7 @@ namespace Casadocodigo.Migrations
             modelBuilder.Entity("Casadocodigo.Models.CartaoCredito", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -74,8 +70,7 @@ namespace Casadocodigo.Migrations
             modelBuilder.Entity("Casadocodigo.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativa");
 
@@ -93,8 +88,7 @@ namespace Casadocodigo.Migrations
             modelBuilder.Entity("Casadocodigo.Models.Cliente", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -118,11 +112,28 @@ namespace Casadocodigo.Migrations
                     b.ToTable("Cliente");
                 });
 
+            modelBuilder.Entity("Casadocodigo.Models.Dimensoes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("Altura");
+
+                    b.Property<decimal>("Largura");
+
+                    b.Property<decimal>("Peso");
+
+                    b.Property<decimal>("Profundidade");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dimensoes");
+                });
+
             modelBuilder.Entity("Casadocodigo.Models.Endereco", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -152,6 +163,19 @@ namespace Casadocodigo.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Endereco");
+                });
+
+            modelBuilder.Entity("Casadocodigo.Models.Frete", b =>
+                {
+                    b.Property<int>("PedidoId");
+
+                    b.Property<int>("PrazoEntrega");
+
+                    b.Property<decimal>("Valor");
+
+                    b.HasKey("PedidoId");
+
+                    b.ToTable("Frete");
                 });
 
             modelBuilder.Entity("Casadocodigo.Models.Imagem", b =>
@@ -194,8 +218,7 @@ namespace Casadocodigo.Migrations
             modelBuilder.Entity("Casadocodigo.Models.Livro", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -203,6 +226,8 @@ namespace Casadocodigo.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired();
+
+                    b.Property<int>("DimensoesId");
 
                     b.Property<string>("Isbn")
                         .IsRequired();
@@ -215,6 +240,9 @@ namespace Casadocodigo.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DimensoesId")
+                        .IsUnique();
 
                     b.HasIndex("Isbn")
                         .IsUnique();
@@ -254,8 +282,7 @@ namespace Casadocodigo.Migrations
             modelBuilder.Entity("Casadocodigo.Models.Pedido", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ClienteId");
 
@@ -264,6 +291,10 @@ namespace Casadocodigo.Migrations
                     b.Property<DateTime>("DataRealizacao");
 
                     b.Property<int>("Status");
+
+                    b.Property<decimal>("Subtotal");
+
+                    b.Property<decimal>("Total");
 
                     b.HasKey("Id");
 
@@ -305,6 +336,14 @@ namespace Casadocodigo.Migrations
                         .HasForeignKey("ClienteId");
                 });
 
+            modelBuilder.Entity("Casadocodigo.Models.Frete", b =>
+                {
+                    b.HasOne("Casadocodigo.Models.Pedido")
+                        .WithOne("Frete")
+                        .HasForeignKey("Casadocodigo.Models.Frete", "PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Casadocodigo.Models.Imagem", b =>
                 {
                     b.HasOne("Casadocodigo.Models.Livro")
@@ -323,6 +362,14 @@ namespace Casadocodigo.Migrations
                     b.HasOne("Casadocodigo.Models.Pedido", "Pedido")
                         .WithMany("ItensPedido")
                         .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Casadocodigo.Models.Livro", b =>
+                {
+                    b.HasOne("Casadocodigo.Models.Dimensoes", "Dimensoes")
+                        .WithOne()
+                        .HasForeignKey("Casadocodigo.Models.Livro", "DimensoesId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
